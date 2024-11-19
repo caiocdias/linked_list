@@ -38,35 +38,39 @@ impl LinkedList {
         }
         return (false, "Failed to add the node to the list");
     }
-
-    pub fn remove_node_by_index(&mut self, index: i32) -> (bool, &str) {
+    
+    pub fn remove_node_by_index(&mut self, index: i32) -> (bool, &'static str) {
         if self.is_empty() {
-            return(false, "List is empty");
-        } 
-
-        else if index <= 0 || index > self.lenght {
-            return (false, "Index out of array");
-        } 
-
-        else if index == 1 {
-            self.head = self.head.next_node;
-            return (true, "Node successfully removed from head of the list");
+            return (false, "List is empty");
         }
 
-        else {
-            let current = &mut self.head;
-            let next = &mut self.head.next_node;
-            let count: i32 = 0;
-            while let Some(ref mut node) = current {
-                if count == index - 1 {
-                    current.next_node = &mut next.next_node;
-                    return (true, "Node successfully removed from the list");
-                } else {
-                    next = &mut next.next_node;
-                    current = &mut current.next_node
-                }
+        if index <= 0 || index > self.lenght {
+            return (false, "Index out of bounds");
+        }
+
+        if index == 1 {
+            self.head = self.head.as_mut().and_then(|node| node.next_node.take());
+            self.lenght -= 1;
+            return (true, "Node successfully removed from the head of the list");
+        }
+
+        let mut current = &mut self.head;
+        for _ in 1..index - 1 {
+            if let Some(ref mut node) = current {
+                current = &mut node.next_node;
+            } else {
+                return (false, "Failed to traverse the list");
             }
-            return (false, "Failed to remove the node of the list");
         }
+
+        if let Some(ref mut node) = current {
+            if let Some(ref mut next_node) = node.next_node {
+                node.next_node = next_node.next_node.take();
+                self.lenght -= 1;
+                return (true, "Node successfully removed from the list");
+            }
+        }
+
+        (false, "Failed to remove the node from the list")
     }
 }
