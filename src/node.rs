@@ -4,19 +4,20 @@ pub struct ListNode {
 }
 
 impl ListNode {
-    pub fn new(&mut self, val: i32) {
-        ListNode {
-            val,
+    pub fn new(val: i32) -> Self {
+        let node = ListNode {
+            val: 0,
             next_node: None,
         };
-        self.set_val(val);
+        node.set_val(val);
+        node
     }
 
     pub fn set_val(&mut self, val: i32) {
         self.val = val;
     }
 
-    pub fn get_val(self) -> i32 {
+    pub fn get_val(&self) -> i32 {
         self.val
     }
 }
