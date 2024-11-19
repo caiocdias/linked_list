@@ -5,7 +5,7 @@ pub struct ListNode {
 
 impl ListNode {
     pub fn new(val: i32) -> Self {
-        let node = ListNode {
+        let mut node = ListNode {
             val: 0,
             next_node: None,
         };
