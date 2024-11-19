@@ -1,6 +1,6 @@
 pub struct ListNode {
     val: i32,
-    next_node: Option<Box<ListNode>>,
+    pub next_node: Option<Box<ListNode>>,
 }
 
 impl ListNode {
